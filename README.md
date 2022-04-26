@@ -2,6 +2,8 @@
 
 GitHub : https://github.com/frsargua/WeekThree_F.git
 
+GitHub Page : https://frsargua.github.io/WeekThree_F/
+
 
 This piece of work required us to understand how to use functions.
 

@@ -7,12 +7,20 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
+}
 
+// This function creates a array containing characters based on their unicode
+function charCodes(initial, final) {
+  let arr = [];
+  for (let i = initial; i < final; i++) {
+    let char = String.fromCharCode(i);
+    arr.push(char);
+  }
+  return arr;
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-
 
 // This checks the length selected
 function passwordLengthChecker() {
@@ -23,125 +31,67 @@ function passwordLengthChecker() {
     return passwordLength;
   } else {
     alert("The value has to be in between 8 and 128 characters");
-    passwordLengthChecker();
+    passwordLength = passwordLengthChecker();
+    return passwordLength;
   }
 }
-
 
 //This checks if the user wants capital , lower or both  casing.
 function casing() {
   let casingType = prompt("Do you want uppercase, lowercase or both?");
-// Alternative would be using the bitwise value of each character to create the arrays. I will attempt this week
-  const alphabetCapital = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ];
-
-  const alphabetLower = alphabetCapital.map(function (x) {
-    return x.toLowerCase();
-  });
+  // Alternative would be using the bitwise value of each character to create the arrays. I will attempt this week
+  const alphabetCapital = charCodes(65, 91);
+  const alphabetLower = charCodes(97, 123);
 
   let upperCaseOptions = ["uppercase", "upper case", "upper"];
   let lowerCaseOptions = ["lowercase", "lower case", "lower"];
 
   const bothTypes = alphabetCapital.concat(alphabetLower);
 
-  if (casingType.toLowerCase() == "both"){
+  if (casingType.toLowerCase() == "both") {
     return bothTypes;
-  } else if (upperCaseOptions.includes(casingType.toLowerCase())){
+  } else if (upperCaseOptions.includes(casingType.toLowerCase())) {
     return alphabetCapital;
   } else if (lowerCaseOptions.includes(casingType.toLowerCase())) {
     return alphabetLower;
   } else {
     alert("Wrong input value");
-    casing();
+    casingType = casing();
+    return casingType;
   }
 }
 
 //NUMERICS
 function numbering() {
-  let numeric = prompt("Do you want numbers? YES/NO?");
+  let numeric = confirm("Do you want numbers? YES/NO?");
   const numberArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  if (numeric.toLowerCase() == "yes") {
+  if (numeric == true) {
     return numberArray;
   }
-  if (numeric.toLowerCase() == "no") {
+  if (numeric == false) {
     return [];
   } else {
     alert('Wrong input, type "YES" or "NO"');
-    numbering();
+    numeric = numbering();
+    return numeric;
   }
 }
 
 // SPECIAL CHARACTERS
 function specialCharactersChecker() {
-  let specialChar = prompt("Do you want special characters? YES/NO");
+  let specialChar = confirm("Do you want special characters? YES/NO");
 
-  const specialCharacters = [
-    "!",
-    '"',
-    "#",
-    "$",
-    "%",
-    "&",
-    "'",
-    "(",
-    ")",
-    "*",
-    "+",
-    ",",
-    "-",
-    ".",
-    "/",
-    ":",
-    ";",
-    "<",
-    "=",
-    ">",
-    "?",
-    "@",
-    "[",
-    "\\",
-    "]",
-    "^",
-    "_",
-    "`",
-    "{",
-    "|",
-    "}",
-    "~",
-  ];
-  if (specialChar.toLowerCase() == "yes") {
-    return specialCharacters;
-  } else if (specialChar.toLowerCase() == "no") {
+  const specialCharacters = " !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
+  const specialCharactersArray = specialCharacters.split("");
+  console.log(specialCharactersArray);
+  if (specialChar == true) {
+    return specialCharactersArray;
+  } else if (specialChar == false) {
     return [];
   } else {
     alert('Type "YES" or "NO"');
-    specialCharactersChecker();
+    numeric = specialCharactersChecker();
+    return numeric;
   }
 }
 
@@ -170,7 +120,7 @@ function generatePassword() {
   // Global array combining choices. If the user didnt want numbers, the array added would have no values.
   let globalOptions = casingType.concat(numbersAdder, specialCharactersArray);
 
-  // 
+  //
   let finalPassword = [];
   for (let i = 0; i < passwordLengthValue; i++) {
     finalPassword.push(randomSelector(globalOptions));
